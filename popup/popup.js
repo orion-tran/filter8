@@ -31,7 +31,7 @@ async function fetchStatus() {
   }
 }
 
-console.log("currently: " + (await fetchStatus()));
+var state = await fetchStatus();
 
 document.addEventListener("click", async (e) => {
   if (e.target.className != "main-title") return;
@@ -44,3 +44,16 @@ document.addEventListener("click", async (e) => {
   const response = await chrome.tabs.sendMessage(tab.id, { action: "toggle" });
   console.log(response);
 });
+
+var logo = document.getElementById("logo");
+logo.src = state ? "filter8.svg" : "filter8_off.svg"
+logo.addEventListener("click", async () => {
+    const tab = await getCurrentTab();
+    if (tab && !deadLocked) {
+      state = !state;
+      logo.src = state ? "filter8.svg" : "filter8_off.svg";
+      
+      const response = await chrome.tabs.sendMessage(tab.id, { action: "toggle" });
+      console.log(response);
+    }
+})
