@@ -1,0 +1,10 @@
+{
+  "manifest_version": 3,
+  "name": "filter8",
+  "description": "make your browsing experience 8bit",
+  "version": "1.0",
+  "action": {
+    "default_popup": "toggle.html",
+    "default_icon": "filter8.png"
+  }
+}
