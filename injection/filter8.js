@@ -49,8 +49,9 @@ function filterOff() {
   console.log("filtering OFF!");
 
   document.querySelectorAll("img").forEach((img) => {
-    const original = urlMap.get(img.src);
-    if (original) img.src = original;
+    try {
+      if (original = urlMap.get(img.src)) img.src = original;
+    } catch {}
   });
 
   urlMap.clear();

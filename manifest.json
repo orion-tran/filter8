@@ -10,7 +10,10 @@
   "icons": {
     "128": "assets/filter8.png"
   },
-  "permissions": ["activeTab"],
+  "permissions": [
+    "activeTab",
+    "fontSettings"
+  ],
   "content_scripts": [
     {
       "matches": ["<all_urls>"],
