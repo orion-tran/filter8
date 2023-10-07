@@ -39,9 +39,8 @@ git clone https://github.com/orion-tran/filter8.git
 ## Usage
 Once Filter8 is installed, you can start enjoying the 8-bit themed web browsing experience. Follow these simple steps:
 1. Click on the Filter8 extension icon in the Chrome toolbar.
-2. Customize the settings to your preference, adjusting pixelation levels, color palettes, and more.
+2. Press the logo to toggle on and off. If the status indicated `deadlocked` restart the page, or open a website (doesn't work on new tabs)
 3. Browse your favorite websites and watch as they transform into pixelated masterpieces.
-4. Toggle the extension on or off at any time for instant access to the regular web experience.
 
 Feedback and Support
 
