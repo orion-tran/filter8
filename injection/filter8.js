@@ -7,6 +7,7 @@ function toggleFiltering() {
   else filterOff();
 }
 
+var urlMap = new Map();
 function filterOn() {
   console.log("filtering ON!");
 
@@ -32,7 +33,9 @@ function filterOn() {
       imageCrusher.height
     );
 
-    img.src = imageCrusher.toDataURL();
+    const url = imageCrusher.toDataURL();
+    urlMap.set(url, img.src);
+    img.src = url;
     img.style.imageRendering = "pixelated";
 
     img.style.width = imageCrusher.width * 8 + "px";
@@ -44,6 +47,13 @@ function filterOn() {
 
 function filterOff() {
   console.log("filtering OFF!");
+
+  document.querySelectorAll("img").forEach((img) => {
+    const original = urlMap.get(img.src);
+    if (original) img.src = original;
+  });
+
+  urlMap.clear();
 }
 
 chrome.runtime.onMessage.addListener(function (request, _sender, sendResponse) {
