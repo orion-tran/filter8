@@ -19,5 +19,11 @@
       "matches": ["<all_urls>"],
       "js": ["injection/filter8.js"]
     }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": [ "popup/PressStart2P-Regular.woff2" ],
+      "matches": [ "<all_urls>" ]
+    }
   ]
 }

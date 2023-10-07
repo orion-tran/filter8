@@ -7,9 +7,26 @@ function toggleFiltering() {
   else filterOff();
 }
 
+let styleObject = undefined;
 var urlMap = new Map();
 function filterOn() {
   console.log("filtering ON!");
+
+  styleObject = document.createElement("style");
+  styleObject.innerHTML = `
+  @font-face {
+    font-family: 'PressStart2P';
+    font-style: normal;
+    font-weight: 400;
+    src: url('${chrome.runtime.getURL(
+      "popup/PressStart2P-Regular.woff2"
+    )}') format('woff2');
+  }
+
+  * {
+    font-family: 'PressStart2P' !important; 
+  }`;
+  document.body.appendChild(styleObject);
 
   const allImages = document.querySelectorAll("img");
 
@@ -54,8 +71,13 @@ function filterOn() {
 function filterOff() {
   console.log("filtering OFF!");
 
+  if (styleObject) {
+    styleObject.remove();
+    styleObject = undefined;
+  }
+
   document.querySelectorAll("img").forEach((img) => {
-    if (original = urlMap.get(img.src)) img.src = original;
+    if ((original = urlMap.get(img.src))) img.src = original;
   });
 
   urlMap.clear();
