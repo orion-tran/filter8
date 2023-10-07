@@ -45,4 +45,4 @@ Once Filter8 is installed, you can start enjoying the 8-bit themed web browsing 
 Feedback and Support
 
 We value your feedback and are here to assist you with any questions or issues you may encounter.
-If you have suggestions for improvements or encounter any problems while using Filter8, please contact us via the support channel provided on the Chrome Web Store.
+If you have suggestions for improvements or encounter any problems while using Filter8, please contact us via the support channel provided on the Chrome Web Store, or make an issue on this repository!
