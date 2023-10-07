@@ -24,7 +24,7 @@ To install Filter8, follow these steps:
 5. Confirm the installation by clicking "Add Extension" in the pop-up window.
 Filter8 will be added to your Chrome browser, and you can access its features from the extension icon in the toolbar.
 
-### Local Installation
+### Local Installation (requires git)
 1. Clone the Repo 
 ```
 git clone https://github.com/orion-tran/filter8.git
