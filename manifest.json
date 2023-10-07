@@ -4,7 +4,10 @@
   "description": "make your browsing experience 8bit",
   "version": "1.0",
   "action": {
-    "default_popup": "toggle.html",
-    "default_icon": "filter8.png"
+    "default_popup": "popup/toggle.html",
+    "default_icon": "assets/filter8.png"
+  },
+  "icons": {
+    "128": "assets/filter8.png"
   }
 }
