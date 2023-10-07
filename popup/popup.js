@@ -44,6 +44,7 @@ logo.addEventListener("click", async () => {
   if (tab && !deadLocked) {
     state = !state;
     switchLogo()
+    document.getElementById("status").innerHTML = fetchStatus() ? "togglable" : "deadlocked";
 
     const response = await chrome.tabs.sendMessage(tab.id, {
       action: "toggle",
