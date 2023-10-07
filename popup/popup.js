@@ -38,12 +38,6 @@ function switchLogo() {
   logo.src = "../assets/filter8" + (state ? "" : "_off") + ".svg";
 }
 
-function switchFont() {
-  var details = {};
-  
-  chrome.fontSettings.setFont(details);
-}
-
 switchLogo();
 logo.addEventListener("click", async () => {
   const tab = await getCurrentTab();
