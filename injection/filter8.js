@@ -25,7 +25,8 @@ function filterOn() {
   }
 
   * {
-    font-family: 'PixelifySans' !important; 
+    font-family: 'PixelifySans' !important;
+    border-radius: 0 !important;
   }`;
   document.body.appendChild(styleObject);
 
@@ -56,7 +57,7 @@ function filterOn() {
       img.src = url;
       img.style.imageRendering = "pixelated";
 
-      img.style.width = imageCrusher.width *  scalar + "px";
+      img.style.width = imageCrusher.width * scalar + "px";
       img.style.height = imageCrusher.height * scalar + "px";
 
       imageCrusher.remove();
