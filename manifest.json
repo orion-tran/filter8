@@ -13,7 +13,7 @@
   "permissions": ["activeTab"],
   "content_scripts": [
     {
-      "matches": ["*://*/*"],
+      "matches": ["<all_urls>"],
       "js": ["injection/filter8.js"]
     }
   ]
