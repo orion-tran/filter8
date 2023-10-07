@@ -94,6 +94,10 @@ chrome.runtime.onMessage.addListener(function (request, _sender, sendResponse) {
   }
   if (request.action === "slider") {
     scalar = request.scale ? request.scale : scalar;
+    if (filtering) {
+      filterOff();
+      filterOn();
+    }
     sendResponse({ scale: scalar });
   }
 });
