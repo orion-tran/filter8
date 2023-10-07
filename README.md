@@ -1,4 +1,4 @@
-[![filter8](popup/filter8.svg)](https://github.com/orion-tran/filter8)
+[![filter8](assets/filter8.svg)](https://github.com/orion-tran/filter8)
 
 # filter8
 Filter what you see to 8-bit!
