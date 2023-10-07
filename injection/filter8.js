@@ -1,3 +1,4 @@
+let scalar = 4;
 let filtering = false;
 //function that creates an On/Off Toggle
 function toggleFiltering() {
@@ -29,12 +30,11 @@ function filterOn() {
   document.body.appendChild(styleObject);
 
   const allImages = document.querySelectorAll("img");
-
   try {
     allImages.forEach((img) => {
       const imageCrusher = document.createElement("canvas");
-      imageCrusher.width = img.clientWidth / 8;
-      imageCrusher.height = img.clientHeight / 8;
+      imageCrusher.width = img.clientWidth / scalar;
+      imageCrusher.height = img.clientHeight / scalar;
 
       const context = imageCrusher.getContext("2d");
       context.imageSmoothingEnabled = false;
@@ -56,8 +56,8 @@ function filterOn() {
       img.src = url;
       img.style.imageRendering = "pixelated";
 
-      img.style.width = imageCrusher.width * 8 + "px";
-      img.style.height = imageCrusher.height * 8 + "px";
+      img.style.width = imageCrusher.width *  scalar + "px";
+      img.style.height = imageCrusher.height * scalar + "px";
 
       imageCrusher.remove();
     });
@@ -85,9 +85,15 @@ function filterOff() {
 
 chrome.runtime.onMessage.addListener(function (request, _sender, sendResponse) {
   // if the popup is asking for state to update its rendering state
-  if (request.action === "status") sendResponse({ status: filtering });
+  if (request.action === "status") {
+    sendResponse({ status: filtering });
+  }
   if (request.action === "toggle") {
     toggleFiltering();
     sendResponse({ status: filtering });
+  }
+  if (request.action === "slider") {
+    scalar = request.scale ? request.scale : scalar;
+    sendResponse({ scale: scalar });
   }
 });

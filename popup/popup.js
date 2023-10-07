@@ -7,7 +7,7 @@ async function getCurrentTab() {
 let deadLocked = false;
 
 function setStatusText(text) {
-  // TODO: code to set status text to the text
+  document.getElementById("status").innerHTML = text;
   console.log(`setting status text to: ${text}`);
 }
 
@@ -39,19 +39,45 @@ function switchLogo() {
   logo.src = `../assets/filter8${file}.svg`;
 }
 
-async function updateStatus() {
-  document.getElementById("status").innerHTML = deadLocked ? "deadlocked" : (state ? "on" : "off");
+var slider = document.getElementById("slider");
+async function fetchScalar() {
+  const tab = await getCurrentTab();
+  if (tab) {
+    var val = 4;
+    try {
+      const response = await chrome.tabs.sendMessage(tab.id, {
+        action: "slider",
+      });
+      val = response.scale;
+      slider.value = val;
+    } catch (error) {
+      console.log(error);
+    }
+    return val;
+  }
 }
 
-switchLogo();
-await updateStatus();
+var scalar = await fetchScalar();
 
+slider.addEventListener("change", async () => {
+  const tab = await getCurrentTab();
+  if (tab) {
+    scalar = slider.value;
+    const response = await chrome.tabs.sendMessage(tab.id, {
+      action: "slider",
+      scale: scalar,
+    });
+    console.log(response);
+  }
+});
+
+switchLogo();
 logo.addEventListener("click", async () => {
   const tab = await getCurrentTab();
   if (tab && !deadLocked) {
     state = !state;
     switchLogo();
-    await updateStatus();
+    setStatusText(deadLocked ? "deadlocked" : (state ? "on" : "off"));
 
     const response = await chrome.tabs.sendMessage(tab.id, {
       action: "toggle",
