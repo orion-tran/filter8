@@ -32,14 +32,18 @@ async function fetchStatus() {
 }
 
 var state = await fetchStatus();
-
 var logo = document.getElementById("logo");
-logo.src = state ? "filter8.svg" : "filter8_off.svg";
+
+function switchLogo() {
+  logo.src = "../assets/filter8" + (state ? "" : "_off") + ".svg";
+}
+
+switchLogo();
 logo.addEventListener("click", async () => {
   const tab = await getCurrentTab();
   if (tab && !deadLocked) {
     state = !state;
-    logo.src = state ? "filter8.svg" : "filter8_off.svg";
+    switchLogo()
 
     const response = await chrome.tabs.sendMessage(tab.id, {
       action: "toggle",
