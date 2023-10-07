@@ -9,5 +9,12 @@
   },
   "icons": {
     "128": "assets/filter8.png"
-  }
+  },
+  "permissions": ["activeTab"],
+  "content_scripts": [
+    {
+      "matches": ["*://*/*"],
+      "js": ["injection/filter8.js"]
+    }
+  ]
 }
