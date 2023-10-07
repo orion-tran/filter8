@@ -1,5 +1,5 @@
 let filtering = false;
-
+//function that creates an On/Off Toggle
 function toggleFiltering() {
   filtering = !filtering;
 
