@@ -38,13 +38,19 @@ function switchLogo() {
   logo.src = "../assets/filter8" + (state ? "" : "_off") + ".svg";
 }
 
+async function updateStatus() {
+  document.getElementById("status").innerHTML = deadLocked ? "deadlocked" : (state ? "on" : "off");
+}
+
+await updateStatus();
 switchLogo();
+
 logo.addEventListener("click", async () => {
   const tab = await getCurrentTab();
   if (tab && !deadLocked) {
     state = !state;
-    switchLogo()
-    document.getElementById("status").innerHTML = fetchStatus() ? "togglable" : "deadlocked";
+    switchLogo();
+    await updateStatus();
 
     const response = await chrome.tabs.sendMessage(tab.id, {
       action: "toggle",
