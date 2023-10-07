@@ -35,15 +35,16 @@ var state = await fetchStatus();
 var logo = document.getElementById("logo");
 
 function switchLogo() {
-  logo.src = "../assets/filter8" + (state ? "" : "_off") + ".svg";
+  var file = deadLocked ? "_dead" : state ? "" : "_off"
+  logo.src = `../assets/filter8${file}.svg`;
 }
 
 async function updateStatus() {
   document.getElementById("status").innerHTML = deadLocked ? "deadlocked" : (state ? "on" : "off");
 }
 
-await updateStatus();
 switchLogo();
+await updateStatus();
 
 logo.addEventListener("click", async () => {
   const tab = await getCurrentTab();
