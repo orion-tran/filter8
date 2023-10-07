@@ -16,16 +16,16 @@ function filterOn() {
   styleObject = document.createElement("style");
   styleObject.innerHTML = `
   @font-face {
-    font-family: 'PixelifySans';
+    font-family: 'Pixel-UniCode';
     font-style: normal;
     font-weight: 400;
     src: url('${chrome.runtime.getURL(
-      "popup/PixelifySans-Regular.woff2"
+      "popup/Pixel-UniCode.woff2"
     )}') format('woff2');
   }
 
   * {
-    font-family: 'PixelifySans' !important;
+    font-family: 'Pixel-UniCode' !important;
     border-radius: 0 !important;
   }`;
   document.body.appendChild(styleObject);
