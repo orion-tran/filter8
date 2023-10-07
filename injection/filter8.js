@@ -15,16 +15,16 @@ function filterOn() {
   styleObject = document.createElement("style");
   styleObject.innerHTML = `
   @font-face {
-    font-family: 'PressStart2P';
+    font-family: 'PixelifySans';
     font-style: normal;
     font-weight: 400;
     src: url('${chrome.runtime.getURL(
-      "popup/PressStart2P-Regular.woff2"
+      "popup/PixelifySans-Regular.woff2"
     )}') format('woff2');
   }
 
   * {
-    font-family: 'PressStart2P' !important; 
+    font-family: 'PixelifySans' !important; 
   }`;
   document.body.appendChild(styleObject);
 

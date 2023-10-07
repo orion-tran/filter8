@@ -22,7 +22,7 @@
   ],
   "web_accessible_resources": [
     {
-      "resources": [ "popup/PressStart2P-Regular.woff2" ],
+      "resources": [ "popup/PixelifySans-Regular.woff2" ],
       "matches": [ "<all_urls>" ]
     }
   ]
