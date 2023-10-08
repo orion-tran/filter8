@@ -7,12 +7,15 @@ const backgrounds = [
 let index = Math.random() < 0.5 ? 0 : 1;
 let scalar = 4;
 let filtering = false;
-//function that creates an On/Off Toggle
+
+let funPixies = false;
+let funOverlay = true;
+
 function toggleFiltering() {
   filtering = !filtering;
 
-  if (filtering) filterOn(true);
-  else filterOff(true);
+  if (filtering) filterOn(funPixies, funOverlay);
+  else filterOff(funPixies, funOverlay);
 }
 
 let styleObject = undefined;
@@ -120,14 +123,46 @@ function crush(imageCrusher, img) {
   }
 }
 
-function filterOn(fun) {
-  console.log("filtering ON!");
-
-  if (styleObject) {
-    styleObject.remove();
-    styleObject = undefined;
+const clean = (ensure, obj) => {
+  if (ensure && obj) {
+    obj.remove();
+    return undefined;
   }
+  return obj;
+}
 
+function shadd() {
+  let imageCrusher = document.createElement("canvas");
+  const allImages = document.querySelectorAll("img");
+  allImages.forEach((img) => {
+    if (!img.complete) {
+      console.log("recovering from what would be a failure");
+      img.addEventListener(
+        "load",
+        () => {
+          const innerCrusher = document.createElement("canvas");
+          crush(innerCrusher, img);
+          innerCrusher.remove();
+          console.log("recovered!");
+        },
+        { once: true }
+      );
+    } else {
+      if (!crush(imageCrusher, img)) {
+        imageCrusher.remove();
+        imageCrusher = document.createElement("canvas");
+      }
+    }
+  });
+  imageCrusher.remove();
+}
+
+function filterOn(pixies, bg, over) {
+  console.log("filtering ON!");
+  shadd();
+  if (over) return;
+  
+  styleObject = clean(true, styleObject);
   styleObject = document.createElement("style");
   styleObject.innerHTML = `
   @font-face {
@@ -155,8 +190,8 @@ function filterOn(fun) {
     user-select: none;
     pointer-events: none;
     opacity: 25%;
-    background-image: url('${chrome.runtime.getURL(backgrounds[index])}');
-    background-size: cover;
+    ${bg ? `background-image: url('${chrome.runtime.getURL(backgrounds[index])}');` : ""}
+    background-size: contain;
     background-blend-mode: normal;
     overflow: hidden;
     image-rendering: pixelated;
@@ -164,36 +199,11 @@ function filterOn(fun) {
 
   document.body.appendChild(styleObject);
 
-  const allImages = document.querySelectorAll("img");
+  overlay = document.createElement("div");
+  overlay.id = "inject_overlay_filter8";
+  document.body.appendChild(overlay);
 
-  let imageCrusher = document.createElement("canvas");
-  allImages.forEach((img) => {
-    if (!img.complete) {
-      console.log("recovering from what would be a failure");
-      img.addEventListener(
-        "load",
-        () => {
-          const innerCrusher = document.createElement("canvas");
-          crush(innerCrusher, img);
-          innerCrusher.remove();
-          console.log("recovered!");
-        },
-        { once: true }
-      );
-    } else {
-      if (!crush(imageCrusher, img)) {
-        imageCrusher.remove();
-        imageCrusher = document.createElement("canvas");
-      }
-    }
-  });
-  imageCrusher.remove();
-
-  if (fun) {
-    overlay = document.createElement("div");
-    overlay.id = "inject_overlay_filter8";
-    document.body.appendChild(overlay);
-
+  if (pixies) {
     const possibleAssets = ["orion.png", "ryan.png", "sahand.png"];
     for (let i = 0; i < 5; i++) {
       const square = document.createElement("div");
@@ -228,21 +238,14 @@ function filterOn(fun) {
   }
 }
 
-function filterOff(fun) {
+function filterOff(pixies, bg) {
   console.log("filtering OFF!");
 
-  if (fun && styleObject) {
-    styleObject.remove();
-    styleObject = undefined;
-  }
-
-  if (fun && overlay) {
-    overlay.remove();
-    overlay = undefined;
-  }
+  styleObject = clean(pixies, styleObject)
+  overlay = clean(bg, overlay)
 
   document.querySelectorAll("img").forEach((img) => {
-    if ((original = img.getAttribute("original_source"))) img.src = original;
+    if (original = img.getAttribute("original_source")) img.src = original;
   });
 }
 
@@ -259,8 +262,8 @@ chrome.runtime.onMessage.addListener(function (request, _sender, sendResponse) {
   if (request.action === "slider") {
     scalar = request.scale ? request.scale : scalar;
     if (filtering) {
-      filterOff(false);
-      filterOn(false);
+      filterOff(false, false, true);
+      filterOn(false, false, true);
     }
     sendResponse({ scale: scalar });
   }
