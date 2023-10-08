@@ -11,8 +11,7 @@
     "128": "assets/filter8.png"
   },
   "permissions": [
-    "activeTab",
-    "fontSettings"
+    "activeTab"
   ],
   "content_scripts": [
     {
