@@ -89,14 +89,21 @@ slider.addEventListener("change", async () => {
 // toggle extension when logo is pressed
 logo.addEventListener("click", async () => {
   const tab = await getCurrentTab();
-  if (tab && !deadLocked) {
+  if (tab.url.startsWith("chrome://")) {
+    setStatusText("no work here")
+    return;
+  }
+  if (deadLocked) {
+    chrome.tabs.reload(tab.id);
+    deadLocked = false;
+  } else if (tab) {
     state = !state;
-    switchLogo();
-    setStatusText(deadLocked ? "deadlocked" : (state ? "on" : "off"));
 
     const response = await chrome.tabs.sendMessage(tab.id, {
       action: "toggle",
     });
     console.log(response);
   }
+  switchLogo();
+  setStatusText(deadLocked ? "deadlocked" : (state ? "on" : "off"));
 });
