@@ -95,8 +95,33 @@ function filterOn(fun) {
   * {
     font-family: 'PixelifySans' !important;
     border-radius: 0 !important;
+  }
+  
+  #inject_overlay_filter8 {
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 100vh;
+    width: 100vw;
+    position: fixed;
+    z-index: 9999;
+    select: none;
+    pointer-events: none;
+    opacity: 25%;
+    background-image: url('${chrome.runtime.getURL(
+      "assets/8bit_night.jpg"
+    )}');
+    background-size: cover;
+    background-blend-mode: normal;
+    overflow: none;
   }`;
+
   document.body.appendChild(styleObject);
+  
+  overlay = document.createElement("div");
+  overlay.id = "inject_overlay_filter8";
+  document.body.appendChild(overlay);
 
   const allImages = document.querySelectorAll("img");
   try {
@@ -146,7 +171,7 @@ function filterOn(fun) {
         "assets/orion.png"
       )}")`;
       square.style.backgroundSize = "cover";
-      document.body.appendChild(square);
+      overlay.appendChild(square);
   
       funObjects.push(newChar(square));
     }
