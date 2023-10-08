@@ -89,6 +89,11 @@ function updateSpringChar(char) {
 function filterOn(fun) {
   console.log("filtering ON!");
 
+  if (styleObject) {
+    styleObject.remove();
+    styleObject = undefined;
+  }
+
   styleObject = document.createElement("style");
   styleObject.innerHTML = `
   @font-face {
@@ -220,6 +225,7 @@ function filterOff(fun) {
 }
 
 chrome.runtime.onMessage.addListener(function (request, _sender, sendResponse) {
+  console.log(request);
   // if the popup is asking for state to update its rendering state
   if (request.action === "status") {
     sendResponse({ status: filtering, scale: scalar });
