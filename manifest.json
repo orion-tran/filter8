@@ -22,7 +22,7 @@
   ],
   "web_accessible_resources": [
     {
-      "resources": [ "popup/PixelifySans-Regular.woff2" ],
+      "resources": [ "popup/PixelifySans-Regular.woff2", "assets/orion.png", "assets/ryan.png", "assets/sahand.png" ],
       "matches": [ "<all_urls>" ]
     }
   ]

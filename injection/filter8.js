@@ -9,7 +9,76 @@ function toggleFiltering() {
 }
 
 let styleObject = undefined;
-var urlMap = new Map();
+let urlMap = new Map();
+let funObjects = [];
+
+const newSpring = () => {
+  return {
+    position: Math.random(),
+    target: Math.random(),
+    velocity: 0.0,
+    lastTime: new Date().getTime(),
+    stiffness: 2.0,
+    damping: 4.0,
+  };
+};
+const epsilon = (a, b) => Math.abs(a - b) < 0.0001;
+
+// spring type: {position, target, velocity, lastTime, stiffness, damping}
+function updateSpring(spring) {
+  const currentTime = new Date().getTime();
+  const deltaTime = Math.min(currentTime - spring.lastTime, 100);
+  if (deltaTime == 0) return spring;
+
+  if (epsilon(spring.position, spring.target) && epsilon(0, spring.velocity)) {
+    // the spring is not moving
+    spring.position = spring.target;
+    spring.velocity = 0;
+    spring.lastTime = currentTime;
+    return spring;
+  }
+
+  // scaled to reasonable units
+  const delta = deltaTime / 40.0;
+  spring.lastTime = currentTime;
+  spring.velocity +=
+    (1.0 / spring.stiffness) * (spring.target - spring.position) * delta;
+  spring.velocity *= Math.pow(1.0 / spring.damping, delta);
+  spring.position += spring.velocity * delta;
+
+  return spring;
+}
+
+const newChar = (ref) => {
+  return {
+    springX: newSpring(),
+    springY: newSpring(),
+    springRot: newSpring(),
+    ref: ref,
+    updateAt: new Date().getTime(),
+  };
+};
+// springyChar type: {springX, springY, springRot, ref, updateAt}
+function updateSpringChar(char) {
+  updateSpring(char.springX);
+  updateSpring(char.springY);
+  updateSpring(char.springRot);
+
+  char.springRot.target = Math.sign(char.springX.velocity);
+  char.ref.style.left = char.springX.position * window.innerWidth + "px";
+  char.ref.style.top = char.springY.position * window.innerHeight + "px";
+  char.ref.style.transform = `rotate3d(0, 1, 0, ${
+    180 * char.springRot.position
+  }deg)`;
+
+  const currentTime = new Date().getTime();
+  if (currentTime > char.updateAt) {
+    char.updateAt = currentTime + Math.random() * 500 + 200;
+    char.springX.target = Math.random();
+    char.springY.target = Math.random();
+  }
+}
+
 function filterOn() {
   console.log("filtering ON!");
 
@@ -18,7 +87,6 @@ function filterOn() {
   @font-face {
     font-family: 'PixelifySans';
     font-style: normal;
-    font-weight: 400;
     src: url('${chrome.runtime.getURL(
       "popup/PixelifySans-Regular.woff2"
     )}') format('woff2');
@@ -67,6 +135,35 @@ function filterOn() {
       console.log(e.name);
     }
   }
+
+  for (let i = 0; i < 10; i++) {
+    const square = document.createElement("div");
+    square.style.position = "absolute";
+    square.style.width = "100px";
+    square.style.height = "100px";
+    square.style.background = `url("${chrome.runtime.getURL(
+      "assets/orion.png"
+    )}")`;
+    square.style.backgroundSize = "cover";
+    document.body.appendChild(square);
+
+    funObjects.push(newChar(square));
+  }
+
+  const frame = () => {
+    funObjects.forEach((obj) => {
+      updateSpringChar(obj);
+    });
+    if (filtering) requestAnimationFrame(frame);
+    else {
+      funObjects.forEach((obj) => {
+        obj.ref.remove();
+      });
+      funObjects = [];
+    }
+  };
+
+  requestAnimationFrame(frame);
 }
 
 function filterOff() {
