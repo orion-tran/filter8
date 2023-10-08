@@ -35,8 +35,8 @@ filter8 will be added to your Chrome browser, and you can access its features fr
 6. Drag and drop the .crx file onto the page.
 7. Enable the extension.
 
-### Local Installation (requires git)
-1. Clone the Repo.
+### Local Installation
+1. Clone the Repo with git or with direct download.
 ```
 git clone https://github.com/orion-tran/filter8.git
 ```
