@@ -1,6 +1,6 @@
 const backgrounds = [
   "assets/8bit_night.jpg",
-  "assets/factory_8bit.svg",
+  "assets/factory_8bit.png",
   "assets/alive_city_8bit.png",
 ];
 
@@ -152,13 +152,14 @@ function filterOn(fun) {
     width: 100vw;
     position: fixed;
     z-index: 9999;
-    select: none;
+    user-select: none;
     pointer-events: none;
     opacity: 25%;
     background-image: url('${chrome.runtime.getURL(backgrounds[index])}');
     background-size: cover;
     background-blend-mode: normal;
-    overflow: none;
+    overflow: hidden;
+    image-rendering: pixelated;
   }`;
 
   document.body.appendChild(styleObject);
@@ -171,7 +172,7 @@ function filterOn(fun) {
       console.log("recovering from what would be a failure");
       img.addEventListener(
         "load",
-        async () => {
+        () => {
           const innerCrusher = document.createElement("canvas");
           crush(innerCrusher, img);
           innerCrusher.remove();
@@ -194,7 +195,7 @@ function filterOn(fun) {
     document.body.appendChild(overlay);
 
     const possibleAssets = ["orion.png", "ryan.png", "sahand.png"];
-    for (let i = 0; i < 10; i++) {
+    for (let i = 0; i < 5; i++) {
       const square = document.createElement("div");
       square.style.position = "absolute";
       square.style.width = "100px";
