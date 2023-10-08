@@ -1,43 +1,59 @@
+<!DOCTYPE html>
 <html>
-  <style>
-    @font-face {
-      font-family: "PixelifySans";
-      font-style: normal;
-      src: url("PixelifySans-Regular.woff2") format("woff2");
-    }
+  <head>
+    <style>
+      /* define a custom font called 'PixelifySans' */
+      @font-face {
+        font-family: "PixelifySans";
+        font-weight: 400;
+        font-style: normal;
+        src: url("PixelifySans-Regular.woff2") format("woff2");
+      }
 
-    * {
-      font-family: "PixelifySans";
-      color: white;
-      color-scheme: dark;
-      background: #333;
-    }
+      /* apply styles to all elements within the html */
+      * {
+        font-family: "PixelifySans"; 
+        color: white; 
+        color-scheme: dark; 
+        background: #333; 
+      }
 
-    .container {
-      width: 12rem;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
+      /* style for the container div */
+      .container {
+        width: 12rem; 
+        display: flex; 
+        flex-direction: column;
+        align-items: center;
+      }
 
-    .main-title {
-      font-size: 1.5rem;
-    }
+      /* style for the main title */
+      .main-title {
+        font-size: 1.5rem; 
+      }
 
-    /* Raise logo when clicked */
-    #logo:active {
-      position:relative;
-      top:-6px;
-    }
-  </style>
+      /* style for the logo image when it's active (Raise logo when clicked) */
+      #logo:active {
+        position: relative;
+        top: -6px; 
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <!-- display the current status as 'off' within a paragraph -->
+      <p id="status">off</p>
 
-  <div class="container">
-    <p id="status">off</p>
-    <img id="logo" src="../assets/filter8.svg" />
-    <input id="slider" class="slider" type="range" min="2" max="8" value="4">
-    <h1 class="main-title">filter8</h1>
-  </div>
-  
-  <!-- Script should be injected after all elements are declared -->
-  <script src="popup.js" type="module"></script>
+      <!-- display the filter8 logo -->
+      <img id="logo" src="../assets/filter8.svg" />
+
+      <!-- create a range input slider for pixelization -->
+      <input id="slider" class="slider" type="range" min="2" max="8" value="4">
+
+      <!-- display a main title (filter8) while referencing the class 'main-title' -->
+      <h1 class="main-title">filter8</h1>
+    </div>
+
+    <!-- inject an external javascript file called 'popup.js' after all elements are declared -->
+    <script src="popup.js" type="module"></script>
+  </body>
 </html>
