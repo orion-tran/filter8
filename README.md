@@ -27,8 +27,7 @@ filter8 will be added to your Chrome browser, and you can access its features fr
 
 ### Packed Installation
 1. Visit the Releases of this repository.
-2. Download the filter8.crx file.
-    If this doesn't work, download the zip and unzip it.
+2. Download the filter8-crx.zip file and unzip it.
 3. Visit the [Chrome Extensions](chrome://extensions/) page.
 4. Enable `Developer Mode`.
 5. Refresh the page.
