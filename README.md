@@ -17,7 +17,7 @@ Whether you're a gaming enthusiast, a fan of pixel art, or simply looking for a 
 4. An adjustable slider to customize how pixilized your images are
 
 ## Installation
-To install filter8, follow these steps:
+### Webstore Installation
 1. Visit the Chrome Web Store in your Chrome browser.
 2. In the search bar, enter "filter8."
 3. Locate the filter8 extension in the search results.
@@ -25,17 +25,26 @@ To install filter8, follow these steps:
 5. Confirm the installation by clicking "Add Extension" in the pop-up window.
 filter8 will be added to your Chrome browser, and you can access its features from the extension icon in the toolbar.
 
+### Packed Installation
+1. Visit the Releases of this repository.
+2. Download the filter8.crx file.
+    If this doesn't work, download the zip and unzip it.
+3. Visit the [Chrome Extensions](chrome://extensions/) page.
+4. Enable `Developer Mode`.
+5. Refresh the page.
+6. Drag and drop the .crx file onto the page.
+7. Enable the extension.
+
 ### Local Installation (requires git)
-1. Clone the Repo 
+1. Clone the Repo.
 ```
 git clone https://github.com/orion-tran/filter8.git
 ```
-2. Visit the [Chrome Extensions](chrome://extensions/) page
-3. Enable `Developer Mode`
-4. Select `Load unpacked`
-5. Select the **filter8** folder that you cloned
-6. Ensure the extension is toggled on
-7. Enjoy
+2. Visit the [Chrome Extensions](chrome://extensions/) page.
+3. Enable `Developer Mode`.
+4. Select `Load unpacked`.
+5. Select the **filter8** folder that you cloned.
+6. Ensure the extension is toggled on.
 
 ## Usage
 Once filter8 is installed, you can start enjoying the 8-bit themed web browsing experience. Follow these simple steps:
