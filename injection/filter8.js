@@ -4,7 +4,7 @@ let filtering = false;
 function toggleFiltering() {
   filtering = !filtering;
 
-  if (filtering) filterOn();
+  if (filtering) filterOn(true);
   else filterOff();
 }
 
@@ -79,7 +79,7 @@ function updateSpringChar(char) {
   }
 }
 
-function filterOn() {
+function filterOn(fun) {
   console.log("filtering ON!");
 
   styleObject = document.createElement("style");
@@ -136,34 +136,36 @@ function filterOn() {
     }
   }
 
-  for (let i = 0; i < 10; i++) {
-    const square = document.createElement("div");
-    square.style.position = "absolute";
-    square.style.width = "100px";
-    square.style.height = "100px";
-    square.style.background = `url("${chrome.runtime.getURL(
-      "assets/orion.png"
-    )}")`;
-    square.style.backgroundSize = "cover";
-    document.body.appendChild(square);
-
-    funObjects.push(newChar(square));
-  }
-
-  const frame = () => {
-    funObjects.forEach((obj) => {
-      updateSpringChar(obj);
-    });
-    if (filtering) requestAnimationFrame(frame);
-    else {
-      funObjects.forEach((obj) => {
-        obj.ref.remove();
-      });
-      funObjects = [];
+  if (fun) {
+    for (let i = 0; i < 10; i++) {
+      const square = document.createElement("div");
+      square.style.position = "absolute";
+      square.style.width = "100px";
+      square.style.height = "100px";
+      square.style.background = `url("${chrome.runtime.getURL(
+        "assets/orion.png"
+      )}")`;
+      square.style.backgroundSize = "cover";
+      document.body.appendChild(square);
+  
+      funObjects.push(newChar(square));
     }
-  };
+  
+    const frame = () => {
+      funObjects.forEach((obj) => {
+        updateSpringChar(obj);
+      });
+      if (filtering) requestAnimationFrame(frame);
+      else {
+        funObjects.forEach((obj) => {
+          obj.ref.remove();
+        });
+        funObjects = [];
+      }
+    };
 
-  requestAnimationFrame(frame);
+    requestAnimationFrame(frame);
+  }
 }
 
 function filterOff() {
@@ -178,7 +180,7 @@ function filterOff() {
     if ((original = urlMap.get(img.src))) img.src = original;
   });
 
-  urlMap.clear();
+  urlMap = new Map();
 }
 
 chrome.runtime.onMessage.addListener(function (request, _sender, sendResponse) {
@@ -194,7 +196,7 @@ chrome.runtime.onMessage.addListener(function (request, _sender, sendResponse) {
     scalar = request.scale ? request.scale : scalar;
     if (filtering) {
       filterOff();
-      filterOn();
+      filterOn(false);
     }
     sendResponse({ scale: scalar });
   }
