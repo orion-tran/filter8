@@ -1,6 +1,7 @@
 [![filter8](assets/filter8.svg)](https://github.com/orion-tran/filter8)
 
 # filter8
+![comparison](assets/comparison.png)
 Filter what you see to 8-bit!
 
 Filter8 is a fun and nostalgic Chrome extension that transforms your web browsing experience into a delightful 8-bit-themed adventure. 
