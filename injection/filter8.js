@@ -1,4 +1,8 @@
-const backgrounds = ["assets/8bit_night.jpg", "assets/factory_8bit.svg", "assets/alive_city_8bit.png"];
+const backgrounds = [
+  "assets/8bit_night.jpg",
+  "assets/factory_8bit.svg",
+  "assets/alive_city_8bit.png",
+];
 
 let index = Math.random() < 0.5 ? 0 : 1;
 let scalar = 4;
@@ -218,7 +222,7 @@ function filterOff(fun) {
 chrome.runtime.onMessage.addListener(function (request, _sender, sendResponse) {
   // if the popup is asking for state to update its rendering state
   if (request.action === "status") {
-    sendResponse({ status: filtering });
+    sendResponse({ status: filtering, scale: scalar });
   }
   if (request.action === "toggle") {
     index = (index + 1) % 3;

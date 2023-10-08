@@ -5,7 +5,7 @@ let deadLocked = false;
 var slider = document.getElementById("slider");
 var logo = document.getElementById("logo");
 // restore state
-var scalar = await fetchScalar();
+var scalar = 4;
 var state = await fetchStatus();
 
 // adjust logo colors to state
@@ -33,29 +33,12 @@ async function fetchStatus() {
     });
     var bool = response.status;
     setStatusText(bool ? "on" : "off");
+    slider.value = response.scale;
     return bool;
   } catch (error) {
     deadLocked = true;
     setStatusText("Reload page");
     return false;
-  }
-}
-
-// retrieve slider state
-async function fetchScalar() {
-  const tab = await getCurrentTab();
-  if (tab) {
-    var val = 4;
-    try {
-      const response = await chrome.tabs.sendMessage(tab.id, {
-        action: "slider",
-      });
-      val = response.scale;
-      slider.value = val;
-    } catch (error) {
-      console.log(error);
-    }
-    return val;
   }
 }
 
@@ -67,7 +50,7 @@ function setStatusText(text) {
 
 // change logo depending on status
 function switchLogo() {
-  var file = deadLocked ? "_dead" : state ? "" : "_off"
+  var file = deadLocked ? "_dead" : state ? "" : "_off";
   logo.src = `../assets/filter8${file}.svg`;
 }
 
@@ -91,10 +74,10 @@ slider.addEventListener("change", async () => {
 // toggle extension when logo is pressed
 logo.addEventListener("click", async () => {
   const tab = await getCurrentTab();
-  
+
   try {
     if (tab.url.startsWith("chrome://")) {
-      setStatusText("no work here")
+      setStatusText("no work here");
       return;
     }
     if (deadLocked) {
@@ -102,13 +85,15 @@ logo.addEventListener("click", async () => {
       deadLocked = false;
     } else if (tab) {
       state = !state;
-  
-        const response = await chrome.tabs.sendMessage(tab.id, {
-          action: "toggle",
-        });
-        console.log(response);
+
+      const response = await chrome.tabs.sendMessage(tab.id, {
+        action: "toggle",
+      });
+      console.log(response);
     }
-    setStatusText(deadLocked ? "deadlocked" : (state ? "on" : "off"));
+    setStatusText(deadLocked ? "deadlocked" : state ? "on" : "off");
     switchLogo();
-  } catch (e) { console.log(e); }
+  } catch (e) {
+    console.log(e);
+  }
 });
