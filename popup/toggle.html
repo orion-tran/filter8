@@ -5,7 +5,6 @@
       /* define a custom font called 'PixelifySans' */
       @font-face {
         font-family: "PixelifySans";
-        font-weight: 400;
         font-style: normal;
         src: url("PixelifySans-Regular.woff2") format("woff2");
       }
@@ -51,12 +50,16 @@
         border-radius: 0;
         background-color: lightgray;
       }
+
+      .cb {
+        flex-direction: row;
+      }
     </style>
   </head>
   <body>
     <div class="container">
       <!-- display the current status as 'off' within a paragraph -->
-      <p id="status">untouched</p>
+      <p id="status">off</p>
 
       <!-- display the filter8 logo -->
       <img id="logo" src="../assets/filter8.svg" />
@@ -64,6 +67,10 @@
       <!-- create a range input slider for pixelization -->
       <input id="slider" class="slider" type="range" min="2" max="8" value="4">
 
+      <div class="cb">
+        <input type="checkbox" id="pixies">Pixies
+        <input type="checkbox" id="overlay" checked>Overlay
+      </div>
       <!-- display a main title (filter8) while referencing the class 'main-title' -->
       <h1 class="main-title">filter8</h1>
     </div>

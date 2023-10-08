@@ -2,10 +2,11 @@
 let deadLocked = false;
 
 // collect popup elements
+var overlay = document.getElementById("overlay");
+var pixies = document.getElementById("pixies");
 var slider = document.getElementById("slider");
 var logo = document.getElementById("logo");
 // restore state
-var scalar = 4;
 var state = await fetchStatus();
 
 // adjust logo colors to state
@@ -34,6 +35,8 @@ async function fetchStatus() {
     var bool = response.status;
     setStatusText(bool ? "on" : "off");
     slider.value = response.scale;
+    pixies.checked = response.pixiesVal;
+    overlay.checked = response.overlayVal;
     return bool;
   } catch (error) {
     deadLocked = true;
@@ -53,23 +56,6 @@ function switchLogo() {
   var file = deadLocked ? "_dead" : state ? "" : "_off";
   logo.src = `../assets/filter8${file}.svg`;
 }
-
-// update state when slider is adjusted
-slider.addEventListener("change", async () => {
-  const tab = await getCurrentTab();
-  if (tab) {
-    scalar = slider.value;
-    try {
-      const response = await chrome.tabs.sendMessage(tab.id, {
-        action: "slider",
-        scale: scalar,
-      });
-      console.log(response);
-    } catch (error) {
-      console.log(error);
-    }
-  }
-});
 
 // toggle extension when logo is pressed
 logo.addEventListener("click", async () => {
@@ -95,5 +81,51 @@ logo.addEventListener("click", async () => {
     switchLogo();
   } catch (e) {
     console.log(e);
+  }
+});
+
+// update state when slider is adjusted
+slider.addEventListener("change", async () => {
+  const tab = await getCurrentTab();
+  if (tab) {
+    try {
+      const response = await chrome.tabs.sendMessage(tab.id, {
+        action: "slider",
+        scale: slider.value,
+      });
+      console.log(response);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+});
+
+pixies.addEventListener("change", async () => {
+  const tab = await getCurrentTab();
+  if (tab) {
+    try {
+      const response = await chrome.tabs.sendMessage(tab.id, {
+        action: "pixies",
+        pixiesVal: pixies.checked,
+      });
+      console.log(response);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+});
+
+overlay.addEventListener("change", async () => {
+  const tab = await getCurrentTab();
+  if (tab) {
+    try {
+      const response = await chrome.tabs.sendMessage(tab.id, {
+        action: "overlay",
+        overlayVal: overlay.checked,
+      });
+      console.log(response);
+    } catch (error) {
+      console.log(error);
+    }
   }
 });

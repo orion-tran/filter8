@@ -8,6 +8,9 @@ let index = Math.random() < 0.5 ? 0 : 1;
 let scalar = 4;
 let filtering = false;
 
+let pixieState = "off";
+let overlayState = "on";
+
 let funPixies = false;
 let funOverlay = true;
 
@@ -118,7 +121,7 @@ function crush(imageCrusher, img) {
 
     return true;
   } catch (error) {
-    console.log("err: " + error);
+    if (error.name != "SecurityError") console.log("err: " + error);
     return false;
   }
 }
@@ -157,11 +160,16 @@ function shadd() {
   imageCrusher.remove();
 }
 
-function filterOn(pixies, bg, over) {
-  console.log("filtering ON!");
-  shadd();
-  if (over) return;
-  
+function clearPixies() {
+  funObjects.forEach((obj) => {
+    obj.ref.remove();
+  });
+  funObjects = [];
+}
+
+function filterOn(pixies, bg, snap, crackle, pop) {
+  shadd()
+
   styleObject = clean(true, styleObject);
   styleObject = document.createElement("style");
   styleObject.innerHTML = `
@@ -177,8 +185,7 @@ function filterOn(pixies, bg, over) {
     font-family: 'PixelifySans' !important;
     border-radius: 0 !important;
   }
-  
-  #inject_overlay_filter8 {
+  #inject_overlay_filter8 {${bg ? `\nbackground-image: url('${chrome.runtime.getURL(backgrounds[index])}');` : ""}
     top: 0;
     left: 0;
     right: 0;
@@ -190,7 +197,6 @@ function filterOn(pixies, bg, over) {
     user-select: none;
     pointer-events: none;
     opacity: 25%;
-    ${bg ? `background-image: url('${chrome.runtime.getURL(backgrounds[index])}');` : ""}
     background-size: contain;
     background-blend-mode: normal;
     overflow: hidden;
@@ -227,10 +233,7 @@ function filterOn(pixies, bg, over) {
       });
       if (filtering) requestAnimationFrame(frame);
       else {
-        funObjects.forEach((obj) => {
-          obj.ref.remove();
-        });
-        funObjects = [];
+        clearPixies();
       }
     };
 
@@ -239,10 +242,8 @@ function filterOn(pixies, bg, over) {
 }
 
 function filterOff(pixies, bg) {
-  console.log("filtering OFF!");
-
   styleObject = clean(pixies, styleObject)
-  overlay = clean(bg, overlay)
+  overlay = clean(true, overlay)
 
   document.querySelectorAll("img").forEach((img) => {
     if (original = img.getAttribute("original_source")) img.src = original;
@@ -252,7 +253,7 @@ function filterOff(pixies, bg) {
 chrome.runtime.onMessage.addListener(function (request, _sender, sendResponse) {
   // if the popup is asking for state to update its rendering state
   if (request.action === "status") {
-    sendResponse({ status: filtering, scale: scalar });
+    sendResponse({ status: filtering, scale: scalar, pixiesVal: funPixies, overlayVal: funOverlay });
   }
   if (request.action === "toggle") {
     index = (index + 1) % 3;
@@ -260,11 +261,27 @@ chrome.runtime.onMessage.addListener(function (request, _sender, sendResponse) {
     sendResponse({ status: filtering });
   }
   if (request.action === "slider") {
-    scalar = request.scale ? request.scale : scalar;
+    scalar = request.scale;
     if (filtering) {
-      filterOff(false, false, true);
-      filterOn(false, false, true);
+      filterOff(true, true);
+      filterOn(funPixies, funOverlay, true);
     }
     sendResponse({ scale: scalar });
+  }
+  if (request.action === "pixies") {
+    funPixies = request.pixiesVal;
+    if (filtering) {
+      filterOff(true, true);
+      filterOn(funPixies, funOverlay, false, true);
+    }
+    sendResponse({ pixiesVal: funPixies });
+  }
+  if (request.action === "overlay") {
+    funOverlay = request.overlayVal;
+    if (filtering) {
+      filterOff(true, true)
+      filterOn(funPixies, funOverlay, false, false, true);
+    }
+    sendResponse({ overlayVal: funOverlay });
   }
 });
