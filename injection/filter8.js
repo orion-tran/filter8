@@ -117,13 +117,13 @@ function filterOn(fun) {
     background-blend-mode: normal;
     overflow: none;
   }`;
-  
+
   document.body.appendChild(styleObject);
 
   const allImages = document.querySelectorAll("img");
   try {
+    let imageCrusher = document.createElement("canvas");
     allImages.forEach((img) => {
-      const imageCrusher = document.createElement("canvas");
       imageCrusher.width = img.clientWidth / scalar;
       imageCrusher.height = img.clientHeight / scalar;
 
@@ -149,12 +149,12 @@ function filterOn(fun) {
 
       img.style.width = imageCrusher.width * scalar + "px";
       img.style.height = imageCrusher.height * scalar + "px";
-
-      imageCrusher.remove();
     });
   } catch (e) {
     if (e.name != "SecurityError") {
       console.log(e.name);
+      imageCrusher.remove();
+      imageCrusher = document.createElement("canvas");
     }
   }
 
@@ -211,7 +211,7 @@ function filterOff(fun) {
   }
 
   document.querySelectorAll("img").forEach((img) => {
-    if (original = img.getAttribute("original_source")) img.src = original;
+    if ((original = img.getAttribute("original_source"))) img.src = original;
   });
 }
 
