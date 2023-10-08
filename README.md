@@ -11,9 +11,9 @@ Whether you're a gaming enthusiast, a fan of pixel art, or simply looking for a 
 
 ## Features:
 1. Transforms images with a custom 8-bit shader
-2. Coverts text to 8-bit styled font ()
+2. Coverts text to 8-bit styled font (PixelifySans)
 3. Easy toggle (On/Off)
-4. **Possible** Whitelist and Blacklist sites
+4. An adjustable slider to customize how pixilized your images are
 
 ## Installation
 To install Filter8, follow these steps:
