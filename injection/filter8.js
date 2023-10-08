@@ -172,7 +172,7 @@ function filterOn(fun) {
       )}")`;
       square.style.zIndex = "999999";
       square.style.backgroundSize = "cover";
-      document.body.appendChild(square);
+      overlay.appendChild(square);
 
       funObjects.push(newChar(square));
     }
