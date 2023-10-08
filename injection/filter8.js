@@ -109,16 +109,14 @@ function filterOn(fun) {
     select: none;
     pointer-events: none;
     opacity: 25%;
-    background-image: url('${chrome.runtime.getURL(
-      "assets/8bit_night.jpg"
-    )}');
+    background-image: url('${chrome.runtime.getURL("assets/8bit_night.jpg")}');
     background-size: cover;
     background-blend-mode: normal;
     overflow: none;
   }`;
 
   document.body.appendChild(styleObject);
-  
+
   overlay = document.createElement("div");
   overlay.id = "inject_overlay_filter8";
   document.body.appendChild(overlay);
@@ -162,20 +160,23 @@ function filterOn(fun) {
   }
 
   if (fun) {
+    const possibleAssets = ["orion.png", "ryan.png", "sahand.png"];
     for (let i = 0; i < 10; i++) {
       const square = document.createElement("div");
       square.style.position = "absolute";
       square.style.width = "100px";
       square.style.height = "100px";
       square.style.background = `url("${chrome.runtime.getURL(
-        "assets/orion.png"
+        "assets/" +
+          possibleAssets[Math.floor(Math.random() * possibleAssets.length)]
       )}")`;
+      square.style.zIndex = "999999";
       square.style.backgroundSize = "cover";
-      overlay.appendChild(square);
-  
+      document.body.appendChild(square);
+
       funObjects.push(newChar(square));
     }
-  
+
     const frame = () => {
       funObjects.forEach((obj) => {
         updateSpringChar(obj);
