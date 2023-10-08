@@ -93,19 +93,19 @@ logo.addEventListener("click", async () => {
     setStatusText("no work here")
     return;
   }
-  try {
     if (deadLocked) {
       chrome.tabs.reload(tab.id);
       deadLocked = false;
     } else if (tab) {
       state = !state;
   
-      const response = await chrome.tabs.sendMessage(tab.id, {
-        action: "toggle",
-      });
-      console.log(response);
+      try {
+        const response = await chrome.tabs.sendMessage(tab.id, {
+          action: "toggle",
+        });
+        console.log(response);
+      } catch (e) { console.log(e); }
     }
     switchLogo();
     setStatusText(deadLocked ? "deadlocked" : (state ? "on" : "off"));
-  } catch (e) { console.log(e); }
 });

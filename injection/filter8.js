@@ -5,11 +5,11 @@ function toggleFiltering() {
   filtering = !filtering;
 
   if (filtering) filterOn(true);
-  else filterOff();
+  else filterOff(true);
 }
 
 let styleObject = undefined;
-let urlMap = new Map();
+let overlay = undefined;
 let funObjects = [];
 
 const newSpring = () => {
@@ -114,12 +114,8 @@ function filterOn(fun) {
     background-blend-mode: normal;
     overflow: none;
   }`;
-
+  
   document.body.appendChild(styleObject);
-
-  overlay = document.createElement("div");
-  overlay.id = "inject_overlay_filter8";
-  document.body.appendChild(overlay);
 
   const allImages = document.querySelectorAll("img");
   try {
@@ -144,7 +140,7 @@ function filterOn(fun) {
       );
 
       const url = imageCrusher.toDataURL();
-      urlMap.set(url, img.src);
+      img.setAttribute("original_source", img.src);
       img.src = url;
       img.style.imageRendering = "pixelated";
 
@@ -160,6 +156,10 @@ function filterOn(fun) {
   }
 
   if (fun) {
+    overlay = document.createElement("div");
+    overlay.id = "inject_overlay_filter8";
+    document.body.appendChild(overlay);
+
     const possibleAssets = ["orion.png", "ryan.png", "sahand.png"];
     for (let i = 0; i < 10; i++) {
       const square = document.createElement("div");
@@ -194,19 +194,22 @@ function filterOn(fun) {
   }
 }
 
-function filterOff() {
+function filterOff(fun) {
   console.log("filtering OFF!");
 
-  if (styleObject) {
+  if (fun && styleObject) {
     styleObject.remove();
     styleObject = undefined;
   }
 
-  document.querySelectorAll("img").forEach((img) => {
-    if ((original = urlMap.get(img.src))) img.src = original;
-  });
+  if (fun && overlay) {
+    overlay.remove();
+    overlay = undefined;
+  }
 
-  urlMap = new Map();
+  document.querySelectorAll("img").forEach((img) => {
+    if (original = img.getAttribute("original_source")) img.src = original;
+  });
 }
 
 chrome.runtime.onMessage.addListener(function (request, _sender, sendResponse) {
@@ -221,7 +224,7 @@ chrome.runtime.onMessage.addListener(function (request, _sender, sendResponse) {
   if (request.action === "slider") {
     scalar = request.scale ? request.scale : scalar;
     if (filtering) {
-      filterOff();
+      filterOff(false);
       filterOn(false);
     }
     sendResponse({ scale: scalar });
