@@ -86,6 +86,40 @@ function updateSpringChar(char) {
   }
 }
 
+function crush(imageCrusher, img) {
+  try {
+    imageCrusher.width = img.clientWidth / scalar;
+    imageCrusher.height = img.clientHeight / scalar;
+
+    const context = imageCrusher.getContext("2d");
+    context.imageSmoothingEnabled = false;
+    context.drawImage(
+      img,
+      0,
+      0,
+      img.naturalWidth,
+      img.naturalHeight,
+      0,
+      0,
+      imageCrusher.width,
+      imageCrusher.height
+    );
+
+    const url = imageCrusher.toDataURL();
+    img.setAttribute("original_source", img.src);
+    img.src = url;
+    img.style.imageRendering = "pixelated";
+
+    img.style.width = imageCrusher.width * scalar + "px";
+    img.style.height = imageCrusher.height * scalar + "px";
+
+    return true;
+  } catch (error) {
+    console.log("err: " + error);
+    return false;
+  }
+}
+
 function filterOn(fun) {
   console.log("filtering ON!");
 
@@ -130,42 +164,29 @@ function filterOn(fun) {
   document.body.appendChild(styleObject);
 
   const allImages = document.querySelectorAll("img");
-  try {
-    let imageCrusher = document.createElement("canvas");
-    allImages.forEach((img) => {
-      imageCrusher.width = img.clientWidth / scalar;
-      imageCrusher.height = img.clientHeight / scalar;
 
-      const context = imageCrusher.getContext("2d");
-      context.imageSmoothingEnabled = false;
-      context.clearRect(0, 0, imageCrusher.width, imageCrusher.height);
-      context.drawImage(
-        img,
-        0,
-        0,
-        img.naturalWidth,
-        img.naturalHeight,
-        0,
-        0,
-        imageCrusher.width,
-        imageCrusher.height
+  let imageCrusher = document.createElement("canvas");
+  allImages.forEach((img) => {
+    if (!img.complete) {
+      console.log("recovering from what would be a failure");
+      img.addEventListener(
+        "load",
+        async () => {
+          const innerCrusher = document.createElement("canvas");
+          crush(innerCrusher, img);
+          innerCrusher.remove();
+          console.log("recovered!");
+        },
+        { once: true }
       );
-
-      const url = imageCrusher.toDataURL();
-      img.setAttribute("original_source", img.src);
-      img.src = url;
-      img.style.imageRendering = "pixelated";
-
-      img.style.width = imageCrusher.width * scalar + "px";
-      img.style.height = imageCrusher.height * scalar + "px";
-    });
-  } catch (e) {
-    if (e.name != "SecurityError") {
-      console.log(e.name);
-      imageCrusher.remove();
-      imageCrusher = document.createElement("canvas");
+    } else {
+      if (!crush(imageCrusher, img)) {
+        imageCrusher.remove();
+        imageCrusher = document.createElement("canvas");
+      }
     }
-  }
+  });
+  imageCrusher.remove();
 
   if (fun) {
     overlay = document.createElement("div");
@@ -225,7 +246,6 @@ function filterOff(fun) {
 }
 
 chrome.runtime.onMessage.addListener(function (request, _sender, sendResponse) {
-  console.log(request);
   // if the popup is asking for state to update its rendering state
   if (request.action === "status") {
     sendResponse({ status: filtering, scale: scalar });
