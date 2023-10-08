@@ -1,3 +1,6 @@
+const backgrounds = ["assets/8bit_night.jpg", "assets/factory_8bit.svg", "assets/alive_city_8bit.png"];
+
+let index = Math.random() < 0.5 ? 0 : 1;
 let scalar = 4;
 let filtering = false;
 //function that creates an On/Off Toggle
@@ -109,7 +112,7 @@ function filterOn(fun) {
     select: none;
     pointer-events: none;
     opacity: 25%;
-    background-image: url('${chrome.runtime.getURL("assets/8bit_night.jpg")}');
+    background-image: url('${chrome.runtime.getURL(backgrounds[index])}');
     background-size: cover;
     background-blend-mode: normal;
     overflow: none;
@@ -218,6 +221,7 @@ chrome.runtime.onMessage.addListener(function (request, _sender, sendResponse) {
     sendResponse({ status: filtering });
   }
   if (request.action === "toggle") {
+    index = (index + 1) % 3;
     toggleFiltering();
     sendResponse({ status: filtering });
   }

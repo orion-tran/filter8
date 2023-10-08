@@ -31,7 +31,9 @@ async function fetchStatus() {
     const response = await chrome.tabs.sendMessage(tab.id, {
       action: "status",
     });
-    return response.status;
+    var bool = response.status;
+    setStatusText(bool ? "on" : "off");
+    return bool;
   } catch (error) {
     deadLocked = true;
     setStatusText("Reload page");
@@ -89,23 +91,24 @@ slider.addEventListener("change", async () => {
 // toggle extension when logo is pressed
 logo.addEventListener("click", async () => {
   const tab = await getCurrentTab();
-  if (tab.url.startsWith("chrome://")) {
-    setStatusText("no work here")
-    return;
-  }
+  
+  try {
+    if (tab.url.startsWith("chrome://")) {
+      setStatusText("no work here")
+      return;
+    }
     if (deadLocked) {
       chrome.tabs.reload(tab.id);
       deadLocked = false;
     } else if (tab) {
       state = !state;
   
-      try {
         const response = await chrome.tabs.sendMessage(tab.id, {
           action: "toggle",
         });
         console.log(response);
-      } catch (e) { console.log(e); }
     }
-    switchLogo();
     setStatusText(deadLocked ? "deadlocked" : (state ? "on" : "off"));
+    switchLogo();
+  } catch (e) { console.log(e); }
 });
