@@ -171,7 +171,7 @@ function filterOn(pixies, bg, snap, crackle, pop) {
     font-family: 'PixelifySans';
     font-style: normal;
     src: url('${chrome.runtime.getURL(
-      "popup/PixelifySans-Regular.woff2"
+      "assets/PixelifySans-Regular.woff2"
     )}') format('woff2');
   }
 

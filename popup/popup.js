@@ -53,8 +53,21 @@ function setStatusText(text) {
 
 // change logo depending on status
 function switchLogo() {
-  var file = deadLocked ? "_dead" : state ? "" : "_off";
-  logo.src = `../assets/filter8${file}.svg`;
+  let text;
+  let shadow;
+  if (deadLocked) {
+    shadow = "#3c0008";
+    text = "#ff0000";
+  } else if (state) {
+    shadow = "#11450C";
+    text = "#18FF04";
+  } else {
+    shadow = "#2e332c";
+    text = "#6d756a";
+  }
+  document.getElementById("logoShadow").setAttribute("fill", shadow);
+  document.getElementById("logoText").setAttribute("fill", text);
+
 }
 
 // toggle extension when logo is pressed

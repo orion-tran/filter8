@@ -1,4 +1,4 @@
-[![filter8](assets/filter8.svg)](https://github.com/orion-tran/filter8)
+[![filter8](assets/filter8.png)](https://github.com/orion-tran/filter8)
 
 # filter8
 ![comparison](assets/comparison.png)

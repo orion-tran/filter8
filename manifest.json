@@ -21,7 +21,7 @@
   ],
   "web_accessible_resources": [
     {
-      "resources": [ "assets/*", "popup/PixelifySans-Regular.woff2" ],
+      "resources": [ "assets/*" ],
       "matches": [ "<all_urls>" ]
     }
   ]
