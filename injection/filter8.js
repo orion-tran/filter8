@@ -14,7 +14,7 @@ function toggleFiltering() {
   filtering = !filtering;
 
   if (filtering) filterOn(funPixies, funOverlay);
-  else filterOff(funPixies, funOverlay);
+  else filterOff();
 }
 
 let styleObject = undefined;
@@ -122,8 +122,8 @@ function crush(imageCrusher, img) {
   }
 }
 
-const clean = (ensure, obj) => {
-  if (ensure && obj) {
+const clean = (obj) => {
+  if (obj) {
     obj.remove();
     return undefined;
   }
@@ -161,10 +161,10 @@ function clearPixies() {
   funObjects = [];
 }
 
-function filterOn(pixies, bg, snap, crackle, pop) {
+function filterOn(pixies, bg) {
   shadd()
 
-  styleObject = clean(true, styleObject);
+  styleObject = clean(styleObject);
   styleObject = document.createElement("style");
   styleObject.innerHTML = `
   @font-face {
@@ -231,9 +231,9 @@ function filterOn(pixies, bg, snap, crackle, pop) {
   }
 }
 
-function filterOff(pixies, bg) {
-  styleObject = clean(pixies, styleObject)
-  overlay = clean(true, overlay)
+function filterOff() {
+  styleObject = clean(styleObject)
+  overlay = clean(overlay)
 
   document.querySelectorAll("img").forEach((img) => {
     if (original = img.getAttribute("original_source")) img.src = original;
@@ -241,7 +241,7 @@ function filterOff(pixies, bg) {
 }
 
 function cycle() {
-  filterOff(true, true);
+  filterOff();
   filterOn(funPixies, funOverlay);
 }
 
