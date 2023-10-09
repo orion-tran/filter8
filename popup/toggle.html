@@ -51,8 +51,21 @@
         background-color: lightgray;
       }
 
-      .cb {
+      .cbs {
         flex-direction: row;
+      }
+
+      input[type="checkbox"] {
+        appearance: none;
+        width: 1rem;
+        height: 1rem;
+        border: 0.1rem solid lightgray;
+      }
+
+      input[type="checkbox"]:checked {
+        width: 1rem;
+        height: 1rem;
+        background: #18FF04;
       }
     </style>
   </head>
@@ -64,13 +77,14 @@
       <!-- display the filter8 logo -->
       <img id="logo" src="../assets/filter8.svg" />
 
-      <!-- create a range input slider for pixelization -->
-      <input id="slider" class="slider" type="range" min="2" max="8" value="4">
-
-      <div class="cb">
+      <div class="cbs">
         <input type="checkbox" id="pixies">Pixies
         <input type="checkbox" id="overlay" checked>Overlay
       </div>
+
+      <!-- create a range input slider for pixelization -->
+      <input id="slider" class="slider" type="range" min="2" max="8" value="4">
+
       <!-- display a main title (filter8) while referencing the class 'main-title' -->
       <h1 class="main-title">filter8</h1>
     </div>

@@ -139,14 +139,14 @@ function shadd() {
   const allImages = document.querySelectorAll("img");
   allImages.forEach((img) => {
     if (!img.complete) {
-      console.log("recovering from what would be a failure");
+      //console.log("recovering from what would be a failure");
       img.addEventListener(
         "load",
         () => {
           const innerCrusher = document.createElement("canvas");
           crush(innerCrusher, img);
           innerCrusher.remove();
-          console.log("recovered!");
+          //console.log("recovered!");
         },
         { once: true }
       );
@@ -161,9 +161,7 @@ function shadd() {
 }
 
 function clearPixies() {
-  funObjects.forEach((obj) => {
-    obj.ref.remove();
-  });
+  funObjects.forEach((obj) => obj.ref.remove());
   funObjects = [];
 }
 
@@ -228,13 +226,9 @@ function filterOn(pixies, bg, snap, crackle, pop) {
     }
 
     const frame = () => {
-      funObjects.forEach((obj) => {
-        updateSpringChar(obj);
-      });
+      funObjects.forEach((obj) => updateSpringChar(obj));
       if (filtering) requestAnimationFrame(frame);
-      else {
-        clearPixies();
-      }
+      else clearPixies();
     };
 
     requestAnimationFrame(frame);
@@ -250,6 +244,11 @@ function filterOff(pixies, bg) {
   });
 }
 
+function cycle() {
+  filterOff(true, true);
+  filterOn(funPixies, funOverlay);
+}
+
 chrome.runtime.onMessage.addListener(function (request, _sender, sendResponse) {
   // if the popup is asking for state to update its rendering state
   if (request.action === "status") {
@@ -262,26 +261,17 @@ chrome.runtime.onMessage.addListener(function (request, _sender, sendResponse) {
   }
   if (request.action === "slider") {
     scalar = request.scale;
-    if (filtering) {
-      filterOff(true, true);
-      filterOn(funPixies, funOverlay, true);
-    }
+    if (filtering) cycle();
     sendResponse({ scale: scalar });
   }
   if (request.action === "pixies") {
     funPixies = request.pixiesVal;
-    if (filtering) {
-      filterOff(true, true);
-      filterOn(funPixies, funOverlay, false, true);
-    }
+    if (filtering) cycle();
     sendResponse({ pixiesVal: funPixies });
   }
   if (request.action === "overlay") {
     funOverlay = request.overlayVal;
-    if (filtering) {
-      filterOff(true, true)
-      filterOn(funPixies, funOverlay, false, false, true);
-    }
+    if (filtering) cycle();
     sendResponse({ overlayVal: funOverlay });
   }
 });
