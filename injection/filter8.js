@@ -7,10 +7,6 @@ const backgrounds = [
 let index = Math.random() < 0.5 ? 0 : 1;
 let scalar = 4;
 let filtering = false;
-
-let pixieState = "off";
-let overlayState = "on";
-
 let funPixies = false;
 let funOverlay = true;
 
