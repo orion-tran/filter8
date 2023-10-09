@@ -18,6 +18,7 @@ Whether you're a gaming enthusiast, a fan of pixel art, or simply looking for a 
 
 ## Installation
 ### Webstore Installation
+_filter8 is not yet approved on the chrome web store_
 1. Visit the Chrome Web Store in your Chrome browser.
 2. In the search bar, enter "filter8."
 3. Locate the filter8 extension in the search results.
@@ -27,7 +28,7 @@ filter8 will be added to your Chrome browser, and you can access its features fr
 
 ### Packed Installation
 1. Visit the Releases of this repository.
-2. Download the filter8.zip file and unzip it, or download filter8.crx directory (likely won't work).
+2. Download the filter8.zip file and unzip it, or download filter8.crx directly (won't work while extension still isn't approved by webstore).
 3. Visit the [Chrome Extensions](chrome://extensions/) page.
 4. Enable `Developer Mode`.
 5. Refresh the page.
