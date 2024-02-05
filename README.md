@@ -4,6 +4,12 @@
 ![comparison](assets/comparison.png)
 Filter what you see to 8-bit!
 
+[![chrome web store](https://storage.googleapis.com/web-dev-uploads/image/WlD8wC6g8khYWPJUsQceQkhXSlv1/UV4C4ybeBTsZt43U4xis.png)](https://chromewebstore.google.com/detail/filter8/kdehbjfjkbbkgldbbdngdfodpdfjembc)
+
+*click the above image to go to the store page!*
+
+This project is a [winner of PatriotHacks 2023](https://devpost.com/software/filter8) in the 8-bit category.
+
 filter8 is a fun and nostalgic Chrome extension that transforms your web browsing experience into a delightful 8-bit-themed adventure. 
 It brings a pixelated twist to your favorite websites, turning modern web content into a retro, pixel-art wonderland
 
@@ -18,12 +24,9 @@ Whether you're a gaming enthusiast, a fan of pixel art, or simply looking for a 
 
 ## Installation
 ### Webstore Installation
-_filter8 is not yet approved on the chrome web store_
-1. Visit the Chrome Web Store in your Chrome browser.
-2. In the search bar, enter "filter8."
-3. Locate the filter8 extension in the search results.
-4. Click the "Add to Chrome" button.
-5. Confirm the installation by clicking "Add Extension" in the pop-up window.
+1. Visit the [Chrome Web Store Page for filter8](https://chromewebstore.google.com/detail/filter8/kdehbjfjkbbkgldbbdngdfodpdfjembc)
+2. Click the "Add to Chrome" button.
+3. Confirm the installation by clicking "Add Extension" in the pop-up window.
 filter8 will be added to your Chrome browser, and you can access its features from the extension icon in the toolbar.
 
 ### Packed Installation
